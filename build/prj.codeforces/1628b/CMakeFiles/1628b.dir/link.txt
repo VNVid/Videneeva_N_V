@@ -1,0 +1,1 @@
+/usr/bin/c++   -std=c++17 -Wall   CMakeFiles/1628b.dir/1628b.cpp.o  -o 1628b 

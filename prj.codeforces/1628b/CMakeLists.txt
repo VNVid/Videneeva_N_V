@@ -1,0 +1,1 @@
+add_executable(1628b 1628b.cpp)
