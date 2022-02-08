@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/oem/UniversityProjects/Repositories/Videneeva_N_V/prj.codeforces/0652e/0652e.cpp
+algorithm
+-
+iostream
+-
+vector
+-
+

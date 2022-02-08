@@ -1,0 +1,1 @@
+add_executable(0652e 0652e.cpp)

@@ -8,3 +8,6 @@
 /home/oem/UniversityProjects/Repositories/Videneeva_N_V/build/prj.codeforces/1628b/CMakeFiles/edit_cache.dir
 /home/oem/UniversityProjects/Repositories/Videneeva_N_V/build/prj.codeforces/1628b/CMakeFiles/rebuild_cache.dir
 /home/oem/UniversityProjects/Repositories/Videneeva_N_V/build/prj.codeforces/1628b/CMakeFiles/1628b.dir
+/home/oem/UniversityProjects/Repositories/Videneeva_N_V/build/prj.codeforces/0652e/CMakeFiles/edit_cache.dir
+/home/oem/UniversityProjects/Repositories/Videneeva_N_V/build/prj.codeforces/0652e/CMakeFiles/rebuild_cache.dir
+/home/oem/UniversityProjects/Repositories/Videneeva_N_V/build/prj.codeforces/0652e/CMakeFiles/0652e.dir

@@ -136,6 +136,19 @@ depend:
 	$(MAKE) -f prj.codeforces/1628b/CMakeFiles/1628b.dir/build.make prj.codeforces/1628b/CMakeFiles/1628b.dir/build
 .PHONY : 1628b/fast
 
+#=============================================================================
+# Target rules for targets named 0652e
+
+# Build rule for target.
+0652e: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 0652e
+.PHONY : 0652e
+
+# fast build rule for target.
+0652e/fast:
+	$(MAKE) -f prj.codeforces/0652e/CMakeFiles/0652e.dir/build.make prj.codeforces/0652e/CMakeFiles/0652e.dir/build
+.PHONY : 0652e/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -146,6 +159,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... 0617a"
 	@echo "... 1628b"
+	@echo "... 0652e"
 .PHONY : help
 
 

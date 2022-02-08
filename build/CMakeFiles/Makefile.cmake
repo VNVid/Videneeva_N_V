@@ -12,6 +12,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/3.16.3/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.16.3/CMakeSystem.cmake"
   "../prj.codeforces/0617a/CMakeLists.txt"
+  "../prj.codeforces/0652e/CMakeLists.txt"
   "../prj.codeforces/1628b/CMakeLists.txt"
   "../prj.codeforces/CMakeLists.txt"
   "/usr/share/cmake-3.16/Modules/CMakeCInformation.cmake"
@@ -47,10 +48,12 @@ set(CMAKE_MAKEFILE_PRODUCTS
   "prj.codeforces/CMakeFiles/CMakeDirectoryInformation.cmake"
   "prj.codeforces/0617a/CMakeFiles/CMakeDirectoryInformation.cmake"
   "prj.codeforces/1628b/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "prj.codeforces/0652e/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "prj.codeforces/0617a/CMakeFiles/0617a.dir/DependInfo.cmake"
   "prj.codeforces/1628b/CMakeFiles/1628b.dir/DependInfo.cmake"
+  "prj.codeforces/0652e/CMakeFiles/0652e.dir/DependInfo.cmake"
   )
