@@ -1,52 +1,116 @@
-#include <iostream>
+#include "rational.h"
 
-class Rational {
- public:
-  Rational() = default;
-  Rational(const Rational&) = default;  // copy constructor
-  Rational(const int num, const int den) : numerator(num), denominator(den) {
-    // TODO
-    // react to zero denominator
-    if (0 == den) {
-      // throw SomeException;
-    }
-    // simplify fraction
+#include <cmath>
+
+Rational::Rational(const int num, const int den)
+    : numerator(num), denominator(den) {
+  if (0 == den) {
+    throw std::invalid_argument("Zero denominator");
   }
-  // TODO Rational() move constructor
-  ~Rational() = default;
 
-  Rational& operator=(const Rational& other);
+  this->Normalize();
+}
 
-  // arithmetic methods
-  Rational& operator+=(const Rational& other);
+Rational& Rational::operator+=(const Rational& other) {
+  numerator *= other.GetDenominator();
+  numerator += denominator * other.GetNumerator();
+  denominator *= other.GetDenominator();
 
-  // unary
-  Rational operator-() const { return Rational(-numerator, denominator); }
+  Normalize();
 
-  // comparisons
-  bool operator==(const Rational& other) const;
+  return *this;
+}
+Rational& Rational::operator-=(const Rational& other) {
+  numerator *= other.GetDenominator();
+  numerator -= denominator * other.GetNumerator();
+  denominator *= other.GetDenominator();
 
-  // cast to double
-  // TODO
+  Normalize();
 
-  // some getters
-  int GetNumerator() const { return numerator; }
-  int GetDenominator() const { return denominator; }
+  return *this;
+}
+Rational& Rational::operator/=(const Rational& other) {
+  numerator *= other.GetDenominator();
+  denominator *= other.GetNumerator();
 
- private:
-  int numerator = 0;
-  int denominator = 1;  // > 0
+  Normalize();
 
-  void Normalize();
-};
+  return *this;
+}
+Rational& Rational::operator*=(const Rational& other) {
+  denominator *= other.GetDenominator();
+  numerator *= other.GetNumerator();
+
+  Normalize();
+
+  return *this;
+}
+
+Rational Rational::operator-() const {
+  return Rational(-numerator, denominator);
+}
+
+bool Rational::operator==(const Rational& other) const {
+  return numerator == other.GetNumerator() &&
+         denominator == other.GetDenominator();
+}
+bool Rational::operator!=(const Rational& other) const {
+  return !(*this == other);
+}
+
+Rational::operator double() const { return (double)numerator / denominator; }
+
+int Rational::GetNumerator() const { return numerator; }
+int Rational::GetDenominator() const { return denominator; }
 
 Rational operator+(const Rational& left, const Rational& right) {
   return Rational(left) += right;
 }
+Rational operator-(const Rational& left, const Rational& right) {
+  return Rational(left) -= right;
+}
+Rational operator/(const Rational& left, const Rational& right) {
+  return Rational(left) /= right;
+}
+Rational operator*(const Rational& left, const Rational& right) {
+  return Rational(left) *= right;
+}
 
 // input, output
 std::ostream& operator<<(std::ostream& stream, const Rational& rational) {
-  stream << rational.GetNumerator() << "/" << rational.GetDenominator();
+  stream << rational.GetNumerator();
+  if (rational.GetDenominator() != 1) {
+    stream << "/" << rational.GetDenominator();
+  }
+
   return stream;
 }
-std::istream& operator>>(std::istream& stream, const Rational& rational);
+std::istream& operator>>(std::istream& stream, Rational& rational) {
+  int num = 0;
+  int den = 1;
+  stream >> num >> den;
+  rational = Rational(num, den);
+  return stream;
+}
+
+void Rational::Normalize() {
+  int gcd = GCD();
+  numerator /= gcd;
+  denominator /= gcd;
+
+  if (denominator < 0) {
+    denominator *= -1;
+    numerator *= -1;
+  }
+}
+
+int Rational::GCD() {
+  int a = abs(numerator);
+  int b = abs(denominator);
+  while (b != 0) {
+    int c = b;
+    b = a % b;
+    a = c;
+  }
+  return a;
+}
