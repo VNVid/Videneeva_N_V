@@ -1,1 +1,0 @@
-/usr/bin/c++   -std=c++17 -Wall   CMakeFiles/0652e.dir/0652e.cpp.o  -o 0652e 

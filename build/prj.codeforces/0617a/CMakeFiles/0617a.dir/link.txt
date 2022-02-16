@@ -1,1 +1,0 @@
-/usr/bin/c++   -std=c++17 -Wall   CMakeFiles/0617a.dir/0617a.cpp.o  -o 0617a 
