@@ -2,6 +2,8 @@
 
 #include <cmath>
 
+Rational::Rational(const int num) : numerator(num) {}
+
 Rational::Rational(const int num, const int den)
     : numerator(num), denominator(den) {
   if (0 == den) {
@@ -12,34 +14,34 @@ Rational::Rational(const int num, const int den)
 }
 
 Rational& Rational::operator+=(const Rational& other) {
-  numerator *= other.GetDenominator();
-  numerator += denominator * other.GetNumerator();
-  denominator *= other.GetDenominator();
+  numerator *= other.denum();
+  numerator += denominator * other.num();
+  denominator *= other.denum();
 
   Normalize();
 
   return *this;
 }
 Rational& Rational::operator-=(const Rational& other) {
-  numerator *= other.GetDenominator();
-  numerator -= denominator * other.GetNumerator();
-  denominator *= other.GetDenominator();
+  numerator *= other.denum();
+  numerator -= denominator * other.num();
+  denominator *= other.denum();
 
   Normalize();
 
   return *this;
 }
 Rational& Rational::operator/=(const Rational& other) {
-  numerator *= other.GetDenominator();
-  denominator *= other.GetNumerator();
+  numerator *= other.denum();
+  denominator *= other.num();
 
   Normalize();
 
   return *this;
 }
 Rational& Rational::operator*=(const Rational& other) {
-  denominator *= other.GetDenominator();
-  numerator *= other.GetNumerator();
+  denominator *= other.denum();
+  numerator *= other.num();
 
   Normalize();
 
@@ -51,36 +53,48 @@ Rational Rational::operator-() const {
 }
 
 bool Rational::operator==(const Rational& other) const {
-  return numerator == other.GetNumerator() &&
-         denominator == other.GetDenominator();
+  return numerator == other.num() && denominator == other.denum();
 }
 bool Rational::operator!=(const Rational& other) const {
   return !(*this == other);
 }
+bool Rational::operator<(const Rational& other) const {
+  return (int64_t)num() * (int64_t)other.denum() <
+         (int64_t)other.num() * (int64_t)denum();
+}
+bool Rational::operator<=(const Rational& other) const {
+  return *this < other || *this == other;
+}
+bool Rational::operator>(const Rational& other) const {
+  return !(*this <= other);
+}
+bool Rational::operator>=(const Rational& other) const {
+  return !(*this < other);
+}
 
 Rational::operator double() const { return (double)numerator / denominator; }
 
-int Rational::GetNumerator() const { return numerator; }
-int Rational::GetDenominator() const { return denominator; }
+int Rational::num() const { return numerator; }
+int Rational::denum() const { return denominator; }
 
-Rational operator+(const Rational& left, const Rational& right) {
-  return Rational(left) += right;
+std::istream& Rational::read_from(std::istream& istrm) {
+  istrm >> numerator >> denominator;
+  return istrm;
 }
-Rational operator-(const Rational& left, const Rational& right) {
-  return Rational(left) -= right;
-}
-Rational operator/(const Rational& left, const Rational& right) {
-  return Rational(left) /= right;
-}
-Rational operator*(const Rational& left, const Rational& right) {
-  return Rational(left) *= right;
+std::ostream& Rational::write_to(std::ostream& ostrm) const {
+  ostrm << this->numerator;
+  if (this->denominator != 1) {
+    ostrm << "/" << this->denominator;
+  }
+
+  return ostrm;
 }
 
 // input, output
 std::ostream& operator<<(std::ostream& stream, const Rational& rational) {
-  stream << rational.GetNumerator();
-  if (rational.GetDenominator() != 1) {
-    stream << "/" << rational.GetDenominator();
+  stream << rational.num();
+  if (rational.denum() != 1) {
+    stream << "/" << rational.denum();
   }
 
   return stream;
