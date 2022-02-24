@@ -1,8 +1,9 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include <doctest/doctest.h>
+
 #include <fstream>
 
-#include "../../prj.parts/doctest/doctest.h"
-#include "M3i.h"
+#include "m3i.h"
 
 TEST_CASE("Simple") {
   M3i matrix = M3i(3, 5);

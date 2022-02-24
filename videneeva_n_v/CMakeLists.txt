@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.13)
 
-project(AlgoCodeforcesProblems)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -Wall")
+project(videneeva_n_v)
 
 add_subdirectory(prj.codeforces)
+add_subdirectory(prj.lab)
+
+include_directories(prj.thirdparty prj.lab)

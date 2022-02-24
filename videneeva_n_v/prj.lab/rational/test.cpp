@@ -1,8 +1,8 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
-#include <fstream>
+#include <doctest/doctest.h>
+#include <rational/rational.h>
 
-#include "../../prj.parts/doctest/doctest.h"
-#include "rational.h"
+#include <fstream>
 
 TEST_CASE("testing arithmetics operations, constructors and comparisons") {
   Rational a = Rational(2, 3);
