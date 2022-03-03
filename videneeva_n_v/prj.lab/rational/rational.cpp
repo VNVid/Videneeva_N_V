@@ -1,6 +1,9 @@
 #include "rational.h"
 
 #include <cmath>
+#include <exception>
+#include <iostream>
+#include <string>
 
 Rational::Rational(const int num) : numerator(num) {}
 
@@ -78,7 +81,28 @@ int Rational::num() const { return numerator; }
 int Rational::denum() const { return denominator; }
 
 std::istream& Rational::read_from(std::istream& istrm) {
-  istrm >> numerator >> denominator;
+  std::string input = "";
+  istrm >> input;
+
+  size_t sepInd = 0;
+  for (size_t i = 0; i < input.size(); i++) {
+    if (std::isdigit(input[i]) || i == 0 && input[i] == '-') {
+      continue;
+    } else if (input[i] == '/') {
+      numerator = std::stoi(input.substr(0, i));
+      sepInd = i;
+      break;
+    } else {
+      throw std::invalid_argument("Wrong format");
+    }
+  }
+  for (size_t i = sepInd + 1; i < input.size(); i++) {
+    if (!std::isdigit(input[i])) {
+      throw std::invalid_argument("Wrong format");
+    }
+  }
+  denominator = std::stoi(input.substr(sepInd + 1, input.size() - sepInd - 1));
+
   return istrm;
 }
 std::ostream& Rational::write_to(std::ostream& ostrm) const {
@@ -92,18 +116,11 @@ std::ostream& Rational::write_to(std::ostream& ostrm) const {
 
 // input, output
 std::ostream& operator<<(std::ostream& stream, const Rational& rational) {
-  stream << rational.num();
-  if (rational.denum() != 1) {
-    stream << "/" << rational.denum();
-  }
-
+  rational.write_to(stream);
   return stream;
 }
 std::istream& operator>>(std::istream& stream, Rational& rational) {
-  int num = 0;
-  int den = 1;
-  stream >> num >> den;
-  rational = Rational(num, den);
+  rational.read_from(stream);
   return stream;
 }
 

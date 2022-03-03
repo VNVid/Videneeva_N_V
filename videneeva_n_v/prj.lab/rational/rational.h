@@ -1,7 +1,7 @@
 #ifndef RATIONAL_H
 #define RATIONAL_H
 
-#include <iostream>
+#include <iosfwd>
 
 class Rational {
  public:
