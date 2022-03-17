@@ -93,12 +93,12 @@ std::istream& Rational::read_from(std::istream& istrm) {
       sepInd = i;
       break;
     } else {
-      throw std::invalid_argument("Wrong format");
+      istrm.setstate(std::ios_base::failbit);
     }
   }
   for (size_t i = sepInd + 1; i < input.size(); i++) {
     if (!std::isdigit(input[i])) {
-      throw std::invalid_argument("Wrong format");
+      istrm.setstate(std::ios_base::failbit);
     }
   }
   denominator = std::stoi(input.substr(sepInd + 1, input.size() - sepInd - 1));

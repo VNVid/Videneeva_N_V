@@ -83,6 +83,9 @@ TEST_CASE("getters and streams") {
   CHECK(b.num() == 1);
   CHECK(b.denum() == 4);
 
+  std::cin >> a;  // 3/-1
+  CHECK(std::cin.fail());
+
   std::cout << a << std::endl;
   b.write_to(std::cout);
 }
