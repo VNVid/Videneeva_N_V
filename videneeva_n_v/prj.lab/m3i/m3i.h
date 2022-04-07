@@ -4,49 +4,67 @@
 #include <cstdio>
 #include <iostream>
 
-class M3i {
- public:
-  M3i() = default;
-  M3i(const M3i&);
-  M3i(M3i&&) = default;
-  M3i(const size_t size,
-      const int num = 0);  // строим матрицу размера size*size*size и заполняем
-                           // значением num
-  M3i(const size_t size1, const size_t size2, const size_t size3,
-      const int num = 0);  //строим матрицу размера size1*size2*size3
-                           //  и заполняем значением num
+struct M3iInner
+{
+    int *data = nullptr;
+    size_t size1 = 0;
+    size_t size2 = 0;
+    size_t size3 = 0;
 
-  ~M3i();
+    int counter = 0;
 
-  M3i clone() const;
+    M3iInner() = default;
+    M3iInner(const size_t size, const int num);
+    M3iInner(const size_t size1, const size_t size2, const size_t size3, const int num);
+    M3iInner(const std::initializer_list<std::initializer_list<std::initializer_list<int>>> &list);
+    ~M3iInner();
 
-  M3i& operator=(const M3i& other);
-  M3i& operator=(M3i&& other) = default;
+    void fill(const int value);
+    inline size_t GetFLatSize() const
+    {
+        return size1 * size2 * size3;
+    }
+};
 
-  int& at(const size_t index1, const size_t index2, const size_t index3);
-  const int& at(const size_t index1, const size_t index2,
-                const size_t index3) const;
+class M3i
+{
+  public:
+    M3i() = default;
+    M3i(const M3i &);
+    M3i(M3i &&) = default;
+    M3i(const size_t size,
+        const int num = 0); // строим матрицу размера size*size*size и заполняем
+                            // значением num
+    M3i(const size_t size1, const size_t size2, const size_t size3,
+        const int num = 0); //строим матрицу размера size1*size2*size3
+                            //  и заполняем значением num
+    M3i(const std::initializer_list<std::initializer_list<std::initializer_list<int>>> &list);
 
-  void resize(const size_t size1, const size_t size2, const size_t size3,
-              const int num = 0);
+    ~M3i();
 
-  std::ostream& write_to(std::ostream& ostrm) const;
+    M3i clone() const;
 
-  void fill(const int value);
+    M3i &operator=(const M3i &other);
+    M3i &operator=(M3i &&other) = default;
 
-  int size(const int dim);
+    int &at(const size_t index1, const size_t index2, const size_t index3);
+    const int &at(const size_t index1, const size_t index2, const size_t index3) const;
 
-  int getCopiesNumber() { return *counter; }
+    void resize(const size_t size1, const size_t size2, const size_t size3, const int num = 0);
 
- private:
-  int* data = nullptr;
-  size_t size1 = 0;
-  size_t size2 = 0;
-  size_t size3 = 0;
+    std::ostream &write_to(std::ostream &ostrm) const;
 
-  int* counter;
+    void fill(const int value);
 
-  inline size_t GetFLatSize() const { return size1 * size2 * size3; }
+    int size(const int dim);
+
+    int getCopiesNumber()
+    {
+        return info->counter;
+    }
+
+  private:
+    M3iInner *info;
 };
 
 #endif
