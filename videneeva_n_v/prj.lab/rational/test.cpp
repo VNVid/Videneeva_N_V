@@ -2,7 +2,8 @@
 #include <doctest/doctest.h>
 #include <rational/rational.h>
 
-#include <fstream>
+#include <sstream>
+#include <vector>
 
 TEST_CASE("testing arithmetics operations, constructors and comparisons") {
   Rational a = Rational(2, 3);
@@ -46,12 +47,12 @@ TEST_CASE("testing normalization and cast to double") {
   CHECK(abs(number - 0.5) < 1e-4);
 }
 
-Rational* generateRational() {
-  Rational* rational(new Rational(2, 1));
+Rational *generateRational() {
+  Rational *rational(new Rational(2, 1));
   return rational;
 }
 TEST_CASE("move constructor and =") {
-  Rational* rational;
+  Rational *rational;
   rational = generateRational();
 
   CHECK(rational->num() == 2);
@@ -72,20 +73,69 @@ TEST_CASE("comparisons and unary minus") {
 }
 
 TEST_CASE("getters and streams") {
-  Rational a = Rational(2, 3);
-  Rational b = Rational(2, 3);
+  SUBCASE("istream: correct inputs") {
+    std::vector<std::string> rationals{"-10/2", "1/2", "3", "20/6"};
+    std::vector<int> values{-5, 1, 1, 2, 3, 1, 10, 3};
 
-  std::cin >> a;
-  CHECK(a.num() == -4);
-  CHECK(a.denum() == 1);
+    for (size_t i = 0; i < rationals.size(); i++) {
+      std::stringstream strin(rationals[i]);
+      Rational rational;
+      strin >> rational;
 
-  b.read_from(std::cin);
-  CHECK(b.num() == 1);
-  CHECK(b.denum() == 4);
+      CHECK(rational.num() == values[2 * i]);
+      CHECK(rational.denum() == values[2 * i + 1]);
+      CHECK(!strin.fail());
+    }
+  }
+  SUBCASE("ostream") {
+    std::vector<Rational> rationals{Rational(-10, 2), Rational(5, 1),
+                                    Rational(1, 2), Rational(0, 1)};
+    std::vector<std::string> strs{"-5/1", "5/1", "1/2", "0/1"};
 
-  std::cin >> a;  // 3/-1
-  CHECK(std::cin.fail());
+    for (size_t i = 0; i < rationals.size(); i++) {
+      std::stringstream strout;
+      strout << rationals[i];
 
-  std::cout << a << std::endl;
-  b.write_to(std::cout);
+      CHECK(strout.str() == strs[i]);
+    }
+  }
+  SUBCASE("invalid input") {
+    std::vector<std::string> rationals{"-10/0", "1/ 2", "3/", "/6", "str"};
+
+    for (size_t i = 0; i < rationals.size(); i++) {
+      std::stringstream strin(rationals[i]);
+      Rational rational;
+      strin >> rational;
+
+      CHECK(strin.fail());
+    }
+  }
+}
+
+TEST_CASE("exceptions") {
+  CHECK_THROWS(Rational(1, 0));
+
+  Rational a = Rational(1, 2);
+  Rational zero = Rational(0, 1);
+
+  CHECK_THROWS(a / zero);
+  CHECK_THROWS(a /= zero);
+
+  CHECK_THROWS(a / 0);
+  CHECK_THROWS(a /= 0);
+}
+
+TEST_CASE("arithmetics operations with integers") {
+  Rational a = Rational(1, 2);
+  int b = 1;
+
+  CHECK((a += b) == Rational(3, 2));
+  CHECK((a -= b) == Rational(1, 2));
+  CHECK((a *= b) == Rational(1, 2));
+  CHECK((a /= b) == Rational(1, 2));
+
+  CHECK(a + b == Rational(3, 2));
+  CHECK(a - b == Rational(-1, 2));
+  CHECK(a * b == Rational(1, 2));
+  CHECK(a / b == Rational(1, 2));
 }
