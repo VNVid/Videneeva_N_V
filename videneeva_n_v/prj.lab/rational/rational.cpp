@@ -3,6 +3,7 @@
 #include <cmath>
 #include <exception>
 #include <iostream>
+#include <sstream>
 #include <string>
 
 Rational::Rational(const int num) : numerator(num) {}
@@ -90,7 +91,7 @@ int Rational::denum() const { return denominator; }
 
 std::istream &Rational::read_from(std::istream &istrm) {
   std::string input = "";
-  istrm >> input;
+  std::getline(istrm, input);
 
   int sepInd = -1;
   bool good = true;

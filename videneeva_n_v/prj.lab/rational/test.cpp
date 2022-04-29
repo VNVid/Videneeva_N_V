@@ -2,6 +2,7 @@
 #include <doctest/doctest.h>
 #include <rational/rational.h>
 
+#include <iostream>
 #include <sstream>
 #include <vector>
 
@@ -100,13 +101,17 @@ TEST_CASE("getters and streams") {
     }
   }
   SUBCASE("invalid input") {
-    std::vector<std::string> rationals{"-10/0", "1/ 2", "3/", "/6", "str"};
+    std::vector<std::string> rationals{"-10/0", "1/ 2", "3/",    "/6",   "str",
+                                       "1 /3",  "1//3", "1 / 3", "1/-4", "1 2"};
 
     for (size_t i = 0; i < rationals.size(); i++) {
       std::stringstream strin(rationals[i]);
       Rational rational;
       strin >> rational;
 
+      if (strin.fail() == false) {
+        std::cout << rationals[i] << "\n";
+      }
       CHECK(strin.fail());
     }
   }
