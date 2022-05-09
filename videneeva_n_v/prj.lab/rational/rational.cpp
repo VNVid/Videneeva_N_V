@@ -91,7 +91,7 @@ int Rational::denum() const { return denominator; }
 
 std::istream &Rational::read_from(std::istream &istrm) {
   std::string input = "";
-  std::getline(istrm, input);
+  istrm >> input;
 
   int sepInd = -1;
   bool good = true;
@@ -116,10 +116,7 @@ std::istream &Rational::read_from(std::istream &istrm) {
   }
 
   if (good) {
-    if (sepInd == -1) {
-      numerator = std::stoi(input);
-      denominator = 1;
-    } else if (sepInd == input.size() - 1 || sepInd == 0) {
+    if (sepInd == -1 || sepInd == input.size() - 1 || sepInd == 0) {
       istrm.setstate(std::ios_base::failbit);
     } else {
       numerator = std::stoi(input.substr(0, sepInd));

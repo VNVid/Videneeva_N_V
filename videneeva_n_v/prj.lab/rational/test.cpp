@@ -75,8 +75,8 @@ TEST_CASE("comparisons and unary minus") {
 
 TEST_CASE("getters and streams") {
   SUBCASE("istream: correct inputs") {
-    std::vector<std::string> rationals{"-10/2", "1/2", "3", "20/6"};
-    std::vector<int> values{-5, 1, 1, 2, 3, 1, 10, 3};
+    std::vector<std::string> rationals{"-10/2", "1/2", "20/6", " 1/2"};
+    std::vector<int> values{-5, 1, 1, 2, 10, 3, 1, 2};
 
     for (size_t i = 0; i < rationals.size(); i++) {
       std::stringstream strin(rationals[i]);
@@ -101,9 +101,8 @@ TEST_CASE("getters and streams") {
     }
   }
   SUBCASE("invalid input") {
-    std::vector<std::string> rationals{"-10/0", "1/ 2", "3/",    "/6",   "str",
-                                       "1 /3",  "1//3", "1 / 3", "1/-4", "1 2"};
-
+    std::vector<std::string> rationals{"-10/0", "3/",   "/6",  "str",
+                                       "1//3",  "1/-4", "1 2", "1 /2"};
     for (size_t i = 0; i < rationals.size(); i++) {
       std::stringstream strin(rationals[i]);
       Rational rational;
