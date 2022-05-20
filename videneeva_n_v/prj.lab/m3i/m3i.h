@@ -27,9 +27,9 @@ struct M3iInner {
 
 class M3i {
  public:
-  M3i() = default;
+  M3i();
   M3i(const M3i &);
-  M3i(M3i &&) = default;
+  M3i(M3i &&);
   M3i(const size_t size,
       const int num = 0);  // строим матрицу размера size*size*size и заполняем
                            // значением num
@@ -45,14 +45,12 @@ class M3i {
   M3i Clone() const;
 
   M3i &operator=(const M3i &other);
-  M3i &operator=(M3i &&other) = default;
+  M3i &operator=(M3i &&other);
 
   int &At(const size_t index1, const size_t index2, const size_t index3);
-  const int &At(const size_t index1, const size_t index2,
-                const size_t index3) const;
+  int &At(const size_t index1, const size_t index2, const size_t index3) const;
 
-  void Resize(const size_t size1, const size_t size2, const size_t size3,
-              const int num = 0);
+  void Resize(const size_t size1, const size_t size2, const size_t size3);
 
   std::ostream &WriteTo(std::ostream &ostrm) const;
   std::istream &ReadFrom(std::istream &istrm);

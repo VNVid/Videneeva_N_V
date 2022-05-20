@@ -1,4 +1,5 @@
-#include <m3i/m3i.h>
+// #include <m3i/m3i.h>
+#include "m3i.h"
 
 #include <algorithm>
 
@@ -52,6 +53,7 @@ void M3iInner::fill(const int value) {
   }
 }
 
+M3i::M3i() { info = new M3iInner(); }
 M3i::M3i(const size_t size, const int num) { info = new M3iInner(size, num); }
 M3i::M3i(const size_t size1, const size_t size2, const size_t size3) {
   if (size1 <= 0 || size2 <= 0 || size3 <= 0) {
@@ -75,11 +77,19 @@ M3i::M3i(const M3i &other) {
   info = other.info;
   (info->counter)++;
 }
+M3i::M3i(M3i &&other) {
+  info = other.info;
+  other.info = nullptr;
+}
 
 M3i::~M3i() {
+  if (info == nullptr) {
+    return;
+  }
   if (info->counter > 0) {
     (info->counter)--;
   } else {
+    info->~M3iInner();
     delete info;
     info = nullptr;
   }
@@ -89,8 +99,15 @@ M3i &M3i::operator=(const M3i &other) {
   if (this == &other) {
     return *this;
   }
+  this->~M3i();
   info = other.info;
   (info->counter)++;
+  return *this;
+}
+M3i &M3i::operator=(M3i &&other) {
+  this->~M3i();
+  info = other.info;
+  other.info = nullptr;
   return *this;
 }
 
@@ -116,8 +133,8 @@ int &M3i::At(const size_t index1, const size_t index2, const size_t index3) {
     throw std::out_of_range("index out of range");
   }
 }
-const int &M3i::At(const size_t index1, const size_t index2,
-                   const size_t index3) const {
+int &M3i::At(const size_t index1, const size_t index2,
+             const size_t index3) const {
   if (index1 < info->size1 && index2 < info->size2 && index3 < info->size3) {
     return info->data[index1 * info->size2 * info->size3 +
                       index2 * info->size3 + index3];
@@ -127,7 +144,7 @@ const int &M3i::At(const size_t index1, const size_t index2,
 }
 
 void M3i::Resize(const size_t new_size1, const size_t new_size2,
-                 const size_t new_size3, const int num) {
+                 const size_t new_size3) {
   if (new_size1 <= 0 || new_size2 <= 0 || new_size3 <= 0) {
     throw M3iException("Impossible size: should be >= 0");
   }
@@ -141,11 +158,15 @@ void M3i::Resize(const size_t new_size1, const size_t new_size2,
   info->size1 = new_size1;
   info->size2 = new_size2;
   info->size3 = new_size3;
-  Fill(num);
+  Fill(0);
 
-  for (size_t i = 0; i < std::min(info->size1, old_size1); i++) {
-    for (size_t j = 0; j < std::min(info->size2, old_size2); j++) {
-      for (size_t k = 0; k < std::min(info->size3, old_size3); k++) {
+  if (old_data == nullptr) {
+    return;
+  }
+
+  for (size_t i = 0; i < std::min(new_size1, old_size1); i++) {
+    for (size_t j = 0; j < std::min(new_size2, old_size2); j++) {
+      for (size_t k = 0; k < std::min(new_size3, old_size3); k++) {
         this->At(i, j, k) =
             old_data[i * old_size2 * old_size3 + j * old_size3 + k];
       }
@@ -158,7 +179,7 @@ void M3i::Resize(const size_t new_size1, const size_t new_size2,
 void M3i::Fill(const int value) { info->fill(value); }
 
 std::ostream &M3i::WriteTo(std::ostream &ostrm) const {
-  ostrm << Size(0) << Size(1) << Size(2) << "\n";
+  ostrm << Size(0) << " " << Size(1) << " " << Size(2) << "\n";
   for (size_t i = 0; i < info->size1; i++) {
     for (size_t j = 0; j < info->size2; j++) {
       for (size_t k = 0; k < info->size3; k++) {
@@ -173,6 +194,8 @@ std::ostream &M3i::WriteTo(std::ostream &ostrm) const {
 }
 std::istream &M3i::ReadFrom(std::istream &istrm) {
   istrm >> info->size1 >> info->size2 >> info->size3;
+  Resize(info->size1, info->size2, info->size3);
+
   for (size_t i = 0; i < info->size1; i++) {
     for (size_t j = 0; j < info->size2; j++) {
       for (size_t k = 0; k < info->size3; k++) {

@@ -1,6 +1,7 @@
 #ifndef BITSET_H
 #define BITSET_H
 
+#include <cstdint>
 #include <iostream>
 
 class BitSet {
@@ -12,13 +13,13 @@ class BitSet {
   // except: length <= 0
   BitSet(const int length, const bool default_value = false);
 
-  BitSet(const BitSet& other) = default;
-  BitSet(BitSet&& other) = default;
+  BitSet(const BitSet& other);
+  BitSet(BitSet&& other);
 
-  BitSet& operator=(const BitSet& other) = default;
-  BitSet& operator=(BitSet&& other) = default;
+  BitSet& operator=(const BitSet& other);
+  BitSet& operator=(BitSet&& other);
 
-  ~BitSet() = default;
+  ~BitSet();
 
   // except: this->size != other.size
   BitSet& operator|=(const BitSet& other);
@@ -50,31 +51,41 @@ class BitSet {
   };
 
  private:
-  // можно будет вернуть, нельзя создавать
-  // auto smth = bset[123];  // compiles
+  uint8_t* data = nullptr;
+  size_t size = 0;
+  size_t data_size = 0;
+
   class BitHolder {
    public:
     BitHolder() = delete;
 
-    // temporary
-    BitHolder(bool value);
+    BitHolder(uint8_t* data, int idx);
 
     BitHolder(const BitHolder& bitholder) = default;
     BitHolder(BitHolder&& bitholder) = default;
+    ~BitHolder() = default;
 
     BitHolder& operator=(const BitHolder& other) = default;
     BitHolder& operator=(const bool value);
     BitHolder& operator=(BitHolder&& other) = default;
 
     operator bool() const;
+
+   private:
+    uint8_t* data_piece;
+    int idx;
   };
 };
-// except: first.size != second.size
-const BitSet operator|(const BitSet& first, const BitSet& second);
-// except: first.size != second.size
-const BitSet operator&(const BitSet& first, const BitSet& second);
-// except: first.size != second.size
-const BitSet operator^(const BitSet& first, const BitSet& second);
+
+inline const BitSet operator|(const BitSet& first, const BitSet& second) {
+  return BitSet(first) |= second;
+}
+inline const BitSet operator&(const BitSet& first, const BitSet& second) {
+  return BitSet(first) &= second;
+}
+inline const BitSet operator^(const BitSet& first, const BitSet& second) {
+  return BitSet(first) ^= second;
+}
 
 std::istream& operator>>(std::istream& istrm, BitSet& bs);
 std::ostream& operator<<(std::ostream& ostrm, const BitSet& bs);

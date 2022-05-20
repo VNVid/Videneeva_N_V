@@ -14,14 +14,14 @@ TEST_CASE("Simple") {
   matrix.At(0, 0, 1) = 12;
   matrix.WriteTo(std::cout);
 
-  matrix.Resize(4, 3, 4, 7);
+  matrix.Resize(4, 3, 4);
   matrix.WriteTo(std::cout);
 
   CHECK(matrix.Size(0) == 4);
   CHECK(matrix.Size(1) == 3);
   CHECK(matrix.Size(2) == 4);
 
-  matrix.Resize(1, 2, 3, 2);
+  matrix.Resize(1, 2, 3);
   matrix.WriteTo(std::cout);
 }
 
