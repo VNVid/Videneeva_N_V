@@ -1,0 +1,6 @@
+/home/nadezhda/MIPT/CognTech/algo_6sem/project/build/CMakeFiles/rebuild_cache.dir
+/home/nadezhda/MIPT/CognTech/algo_6sem/project/build/CMakeFiles/edit_cache.dir
+/home/nadezhda/MIPT/CognTech/algo_6sem/project/build/src/CMakeFiles/rebuild_cache.dir
+/home/nadezhda/MIPT/CognTech/algo_6sem/project/build/src/CMakeFiles/edit_cache.dir
+/home/nadezhda/MIPT/CognTech/algo_6sem/project/build/src/CMakeFiles/maze_test.dir
+/home/nadezhda/MIPT/CognTech/algo_6sem/project/build/src/CMakeFiles/maze3d.dir

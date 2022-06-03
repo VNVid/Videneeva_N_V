@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/maze_test.dir/test.cpp.o  -o maze_test  libmaze3d.a 

@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/nadezhda/MIPT/CognTech/algo_6sem/project/src/maze.cpp
+maze.h
+/home/nadezhda/MIPT/CognTech/algo_6sem/project/src/maze.h
+cmath
+-
+set
+-
+
+/home/nadezhda/MIPT/CognTech/algo_6sem/project/src/maze.h
+fstream
+-
+string
+-
+vector
+-
+
